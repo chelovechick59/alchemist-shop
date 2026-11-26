@@ -1,0 +1,5 @@
+<script setup lang="ts">
+import {useGame} from '../game'
+const {a,e,revive,rest,active}=useGame()
+</script>
+<template><section class="vitals"><h2>Алхімік · Рівень {{a.level}}</h2><p v-if="a.masterRanks">Майстер · постійний бонус {{a.masterRanks*5}}%</p><div class="stats"><div><label>HP {{a.hp}} / {{a.maxHp}}</label><progress class="hp" :value="a.hp" :max="a.maxHp"/></div><div><label>MP {{a.mp}} / {{a.maxMp}}</label><progress :value="a.mp" :max="a.maxMp"/></div><div><label>XP {{a.xp}} / {{a.nextXp}}</label><progress :value="a.xp" :max="a.nextXp"/></div><div class="gold">🟡 {{e.gold}} монет</div></div><button :disabled="!active()||a.mp===a.maxMp" @click="rest">Відпочити (+15 MP)</button><div v-if="!a.alive" class="alert"><strong>Алхімік загинув. Лавку закрито.</strong><button @click="revive">Воскресити алхіміка</button></div><div v-else-if="a.pending" class="alert"><strong>Новий рівень! Оберіть покращення ({{a.pending}})</strong><button @click="a.upgrade('hp')">+15 Max HP</button><button @click="a.upgrade('mp')">+15 Max MP</button></div></section></template>
